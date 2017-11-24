@@ -17,7 +17,7 @@
         <!--<anonymous enabled="false"/>-->
     </http>
 
-    <beans:bean id="jwtAuthenticationFilter" class="com.vshpynta.spring.config.JwtAuthenticationFilter">
+    <beans:bean id="jwtAuthenticationFilter" class="com.vshpynta.spring.config.security.JwtAuthenticationFilter">
         <beans:property name="authenticationManager" ref="authenticationManager"/>
     </beans:bean>
 

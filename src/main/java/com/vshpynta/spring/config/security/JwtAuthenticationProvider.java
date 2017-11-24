@@ -1,6 +1,8 @@
-package com.vshpynta.spring.config;
+package com.vshpynta.spring.config.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.vshpynta.model.User;
+import com.vshpynta.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

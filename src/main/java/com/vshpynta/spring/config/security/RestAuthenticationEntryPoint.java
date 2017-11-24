@@ -1,4 +1,4 @@
-package com.vshpynta.spring.config;
+package com.vshpynta.spring.config.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

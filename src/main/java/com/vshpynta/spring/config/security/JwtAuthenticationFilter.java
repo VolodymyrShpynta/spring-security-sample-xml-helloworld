@@ -1,4 +1,4 @@
-package com.vshpynta.spring.config;
+package com.vshpynta.spring.config.security;
 
 import lombok.*;
 import org.springframework.security.authentication.AuthenticationManager;

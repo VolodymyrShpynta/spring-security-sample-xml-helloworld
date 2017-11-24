@@ -1,5 +1,6 @@
-package com.vshpynta.spring.config;
+package com.vshpynta.repo;
 
+import com.vshpynta.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

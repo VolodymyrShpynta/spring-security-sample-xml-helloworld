@@ -1,5 +1,6 @@
-package com.vshpynta.spring.config;
+package com.vshpynta.spring.config.security;
 
+import com.vshpynta.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

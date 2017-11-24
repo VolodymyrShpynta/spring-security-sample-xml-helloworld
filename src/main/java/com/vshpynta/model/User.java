@@ -1,4 +1,4 @@
-package com.vshpynta.spring.config;
+package com.vshpynta.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
