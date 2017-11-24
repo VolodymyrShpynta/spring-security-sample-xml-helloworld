@@ -27,19 +27,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //@formatter:off
         http
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .csrf().disable()
+            .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), AbstractPreAuthenticatedProcessingFilter.class)
+            .addFilterBefore(new BasicAuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class)
+            .requiresChannel()
+                // enable https only for login
+                .antMatchers("/rest/auth/login*").requiresSecure()
+                .anyRequest().requiresInsecure()
                 .and()
-                .csrf().disable()
-                .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), AbstractPreAuthenticatedProcessingFilter.class)
-                .addFilterBefore(new BasicAuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class)
-                .authorizeRequests()
+            .authorizeRequests()
                 // needed for CORS
                 .antMatchers(HttpMethod.OPTIONS, "**").permitAll()
                 .antMatchers("/rest/admin/**").hasRole("ADMIN")
                 .antMatchers("/rest/user/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/rest/auth/login").permitAll()
                 .antMatchers("/**").authenticated();
+        //@formatter:on
     }
 
 }
