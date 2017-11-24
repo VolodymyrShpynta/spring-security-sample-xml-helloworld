@@ -1,3 +1,3 @@
-# Sample implementation of spring-security using xml congiguration
+# Sample implementation of spring-security using xml configuration
 
 Note: in the separate branch you can find jwt token implementation
