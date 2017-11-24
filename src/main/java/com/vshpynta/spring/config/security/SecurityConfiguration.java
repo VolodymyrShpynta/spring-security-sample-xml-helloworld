@@ -38,7 +38,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // enable https only for login
                 .antMatchers("/rest/auth/login*").requiresSecure()
                 .anyRequest().requiresInsecure()
-                .and()
+            .and()
+            .portMapper()
+                .http(80).mapsTo(443)
+                .http(8080).mapsTo(8443)
+            .and()
             .authorizeRequests()
                 // needed for CORS
                 .antMatchers(HttpMethod.OPTIONS, "**").permitAll()
