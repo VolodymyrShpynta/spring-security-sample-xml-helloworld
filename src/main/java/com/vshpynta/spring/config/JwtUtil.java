@@ -65,7 +65,7 @@ public class JwtUtil {
         jwtUtil.secret = "dsg!UIOPV123&&5";
         System.out.println(jwtUtil.generateToken(User.builder()
                 .username("Bob")
-                .roles(Arrays.asList("ROLE_ADMIN"))
+                .roles(Arrays.asList("ROLE_ADMIN", "ROLE_USER"))
                 .active(true)
                 .build()));
     }
