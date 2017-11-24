@@ -8,7 +8,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -59,15 +58,5 @@ public class JwtUtil {
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
-    }
-
-    public static void main(String[] args) {
-        JwtUtil jwtUtil = new JwtUtil();
-        jwtUtil.secret = "dsg!UIOPV123&&5";
-        System.out.println(jwtUtil.generateToken(User.builder()
-                .username("Bob")
-                .roles(Arrays.asList("ROLE_ADMIN", "ROLE_USER"))
-                .active(true)
-                .build()));
     }
 }
