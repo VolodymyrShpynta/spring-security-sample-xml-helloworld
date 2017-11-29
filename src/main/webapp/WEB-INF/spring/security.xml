@@ -1,20 +1,32 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-         xmlns:beans="http://www.springframework.org/schema/beans"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <!--<global-method-security pre-post-annotations="enabled"/>-->
-    <global-method-security secured-annotations="enabled" />
+    <global-method-security secured-annotations="enabled"/>
 
     <http pattern="/rest/login" security="none"/>
     <http pattern="/rest/signup" security="none"/>
 
-    <http pattern="/rest/**" entry-point-ref="restAuthenticationEntryPoint" create-session="stateless">
-        <intercept-url pattern="/**" access="isAuthenticated()" />
-        <csrf disabled="true"/>
+    <http use-expressions="true" pattern="/rest/**" access-decision-manager-ref="accessDecisionManager"
+          entry-point-ref="restAuthenticationEntryPoint" create-session="stateless">
+
         <custom-filter before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter"/>
+
+        <!--<csrf disabled="true"/>-->
         <!--<anonymous enabled="false"/>-->
+
+        <!-- Note the order that entries are placed against the objectDefinitionSource is critical.
+        The FilterSecurityInterceptor will work from the top of the list down to the FIRST pattern that matches the request URL.
+        Accordingly, you should place MOST SPECIFIC (ie a/b/c/d.*) expressions first, with LEAST SPECIFIC (ie a/.*) expressions last -->
+        <intercept-url pattern="/rest/hello" method="GET" requires-channel="https"
+                       access="permitAll()"/>
+        <intercept-url pattern="/rest/**" requires-channel="https"
+                       access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <intercept-url pattern="/**" requires-channel="https"
+                       access="isAuthenticated()"/>
     </http>
 
     <beans:bean id="jwtAuthenticationFilter" class="com.vshpynta.spring.config.security.JwtAuthenticationFilter">
@@ -24,5 +36,17 @@
     <authentication-manager alias="authenticationManager">
         <authentication-provider ref="jwtAuthenticationProvider"/>
     </authentication-manager>
+
+    <!-- accessDecisionManager is defined only to add custom voters -->
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:bean class="com.vshpynta.spring.config.security.CustomRoleVoter"/>
+                <beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter"/>
+                <beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+                <beans:bean class="org.springframework.security.access.vote.RoleVoter"/>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
 
 </beans:beans>

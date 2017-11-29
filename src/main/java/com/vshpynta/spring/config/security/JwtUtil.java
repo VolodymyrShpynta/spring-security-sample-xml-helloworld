@@ -14,8 +14,8 @@ import java.util.List;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret:dsg!UIOPV123&&5}")
-    private String secret;
+    //    @Value("${jwt.secret:dsg!UIOPV123&&5}")
+    private String secret = "dsg!UIOPV123&&5";
 
     /**
      * Tries to parse specified String as a JWT token. If successful, returns User object with username, id and role prefilled (extracted from token).
@@ -66,7 +66,7 @@ public class JwtUtil {
         jwtUtil.secret = "dsg!UIOPV123&&5";
         System.out.println(jwtUtil.generateToken(User.builder()
                 .username("Bob")
-                .roles(Arrays.asList("ROLE_ADMIN", "ROLE_USER"))
+                .roles(Arrays.asList("ROLE_USER"))
                 .active(true)
                 .build()));
     }
