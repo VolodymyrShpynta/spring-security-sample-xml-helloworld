@@ -1,6 +1,9 @@
 package com.vshpynta.spring.config.security;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,17 +21,23 @@ import java.io.IOException;
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-  private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
-  @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-    String authToken = request.getHeader("X-AUTH-TOKEN");
-    if (authToken == null) {
-      chain.doFilter(request, response);
-      return;
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        String authToken = request.getHeader("X-AUTH-TOKEN");
+        if (authToken != null) {
+            tryAuthenticate(authToken);
+        }
+        chain.doFilter(request, response);
     }
-    Authentication authentication = authenticationManager.authenticate(new JwtAuthenticationToken(authToken));
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    chain.doFilter(request, response);
-  }
+
+    private void tryAuthenticate(String authToken) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(new JwtAuthenticationToken(authToken));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (InvalidAuthenticationException e) {
+            System.out.println("Authentication error occurred: " + e);
+        }
+    }
 }
