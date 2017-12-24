@@ -29,9 +29,9 @@
         <!-- Note the order that entries are placed against the objectDefinitionSource is critical.
         The FilterSecurityInterceptor will work from the top of the list down to the FIRST pattern that matches the request URL.
         Accordingly, you should place MOST SPECIFIC (ie a/b/c/d.*) expressions first, with LEAST SPECIFIC (ie a/.*) expressions last -->
-        <intercept-url pattern="/rest/hello" method="OPTIONS" requires-channel="https"
+        <intercept-url pattern="/rest/hello" method="OPTIONS" requires-channel="any"
                        access="permitAll()"/> <!-- It is needed for CORS -->
-        <intercept-url pattern="/rest/**" requires-channel="https"
+        <intercept-url pattern="/rest/**" requires-channel="any"
                        access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
         <intercept-url pattern="/**" requires-channel="https"
                        access="isAuthenticated()"/>
