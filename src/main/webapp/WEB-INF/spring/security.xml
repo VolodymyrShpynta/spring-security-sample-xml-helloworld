@@ -29,8 +29,20 @@
         <!-- Note the order that entries are placed against the objectDefinitionSource is critical.
         The FilterSecurityInterceptor will work from the top of the list down to the FIRST pattern that matches the request URL.
         Accordingly, you should place MOST SPECIFIC (ie a/b/c/d.*) expressions first, with LEAST SPECIFIC (ie a/.*) expressions last -->
-        <intercept-url pattern="/rest/hello" method="OPTIONS" requires-channel="any"
+        <intercept-url pattern="/rest/**" method="OPTIONS" requires-channel="any"
                        access="permitAll()"/> <!-- It is needed for CORS -->
+
+        <!-- Permit Swagger2 resources: -->
+        <intercept-url pattern="/rest/v2/api-docs/**" requires-channel="any"
+                       access="permitAll()"/>
+        <intercept-url pattern="/rest/swagger-ui.html" requires-channel="any"
+                       access="permitAll()"/>
+        <intercept-url pattern="/rest/webjars/**" requires-channel="any"
+                       access="permitAll()"/>
+        <intercept-url pattern="/rest/swagger-resources/**" requires-channel="any"
+                       access="permitAll()"/>
+
+
         <intercept-url pattern="/rest/**" requires-channel="any"
                        access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
         <intercept-url pattern="/**" requires-channel="https"

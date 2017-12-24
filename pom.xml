@@ -11,6 +11,13 @@
     <description>spring-security-sample-xml-helloworld</description>
     <url>http://spring.io/spring-security</url>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <springfox.version>2.6.1</springfox.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -101,6 +108,17 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--Swagger2 dependencies-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

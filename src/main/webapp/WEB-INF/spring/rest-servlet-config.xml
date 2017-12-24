@@ -17,4 +17,11 @@
 
     <mvc:annotation-driven/>
 
+    <!-- Enables swagger ui-->
+    <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+
+    <!-- Include a swagger configuration-->
+    <bean name="/applicationSwaggerConfig" class="com.vshpynta.spring.config.SpringfoxSwaggerConfiguration"/>
+
 </beans>
