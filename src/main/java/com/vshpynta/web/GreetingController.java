@@ -14,6 +14,6 @@ public class GreetingController {
     @Secured({"ROLE_ADMIN"})
     @RequestMapping(value = "/greeting", method = RequestMethod.GET)
     public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
-        return "greeting," + SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return "Greeting, " + SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }
